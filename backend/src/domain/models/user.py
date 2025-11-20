@@ -1,15 +1,15 @@
 """User domain model."""
+
 import re
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional
 
 
 @dataclass
 class User:
     """User domain entity."""
 
-    id: Optional[int]
+    id: int | None
     first_name: str
     last_name: str
     email: str
@@ -30,5 +30,5 @@ class User:
     @staticmethod
     def _is_valid_email(email: str) -> bool:
         """Validate email format."""
-        pattern = r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
+        pattern = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
         return bool(re.match(pattern, email))

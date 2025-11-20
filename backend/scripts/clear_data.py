@@ -1,4 +1,5 @@
 """Clear all data from the database."""
+
 import sys
 from pathlib import Path
 
@@ -38,7 +39,7 @@ def clear_database():
 
 if __name__ == "__main__":
     response = input("Are you sure you want to clear all data? (yes/no): ")
-    if response.lower() == 'yes':
+    if response.lower() == "yes":
         clear_database()
     else:
         print("Operation cancelled.")

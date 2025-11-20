@@ -85,6 +85,10 @@
   transform: translateY(0);
 }
 
+.error-message {
+  margin-top: 12px;
+}
+
 /* Responsive */
 @media (max-width: 992px) {
   .add-task-form {

@@ -1,7 +1,6 @@
 """API routes for tasks and users."""
-from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
@@ -96,9 +95,9 @@ def create_task(
             updated_at=task.updated_at.isoformat(),
         )
     except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e)) from e
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}") from e
 
 
 @tasks_router.put("/tasks/{task_id}", response_model=TaskResponse)
@@ -124,15 +123,15 @@ def update_task(
             updated_at=task.updated_at.isoformat(),
         )
     except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e)) from e
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}") from e
 
 
-@tasks_router.get("/tasks", response_model=List[TaskResponse])
+@tasks_router.get("/tasks", response_model=list[TaskResponse])
 def get_tasks(
     service: TaskService = Depends(get_task_service),
-) -> List[TaskResponse]:
+) -> list[TaskResponse]:
     """Get all tasks."""
     try:
         tasks = service.get_all_tasks()
@@ -148,7 +147,7 @@ def get_tasks(
             for task in tasks
         ]
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}") from e
 
 
 @tasks_router.delete("/tasks/{task_id}", status_code=204)
@@ -160,15 +159,15 @@ def delete_task(
     try:
         service.delete_task(task_id)
     except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e)) from e
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}") from e
 
 
-@users_router.get("/users", response_model=List[UserResponse])
+@users_router.get("/users", response_model=list[UserResponse])
 def get_users(
     service: UserService = Depends(get_user_service),
-) -> List[UserResponse]:
+) -> list[UserResponse]:
     """Get all users."""
     try:
         users = service.get_all_users()
@@ -184,4 +183,4 @@ def get_users(
             for user in users
         ]
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}") from e

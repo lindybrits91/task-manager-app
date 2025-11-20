@@ -6,6 +6,8 @@ import { useDrag } from '../../contexts/DragContext';
 import { useUsers } from '../../hooks/useUsers';
 import './TaskCard.css';
 
+const MAX_DESCRIPTION_LENGTH = 500;
+
 interface TaskCardProps {
   task: EnrichedTask;
 }
@@ -17,6 +19,24 @@ export function TaskCard({ task }: TaskCardProps) {
   const updateTask = useUpdateTask();
   const deleteTask = useDeleteTask();
   const { getUserByName } = useUsers();
+
+  const handleDescriptionInput = () => {
+    const currentDescription = descriptionRef.current?.textContent || '';
+    if (currentDescription.length > MAX_DESCRIPTION_LENGTH) {
+      // Truncate to max length
+      const truncated = currentDescription.substring(0, MAX_DESCRIPTION_LENGTH);
+      if (descriptionRef.current) {
+        descriptionRef.current.textContent = truncated;
+        // Move cursor to end
+        const range = document.createRange();
+        const sel = window.getSelection();
+        range.selectNodeContents(descriptionRef.current);
+        range.collapse(false);
+        sel?.removeAllRanges();
+        sel?.addRange(range);
+      }
+    }
+  };
 
   const handleDescriptionBlur = () => {
     const currentDescription = descriptionRef.current?.textContent || '';
@@ -78,8 +98,10 @@ export function TaskCard({ task }: TaskCardProps) {
         className="task-description"
         contentEditable
         suppressContentEditableWarning
+        onInput={handleDescriptionInput}
         onBlur={handleDescriptionBlur}
         onKeyDown={handleDescriptionKeyDown}
+        data-max-length={MAX_DESCRIPTION_LENGTH}
       >
         {task.description}
       </div>

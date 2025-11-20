@@ -1,9 +1,10 @@
 """SQLAlchemy database models."""
-from sqlalchemy import CheckConstraint, Column, DateTime, Enum, ForeignKey, Integer, String, Text, UniqueConstraint, func
+
+from sqlalchemy import CheckConstraint, Column, DateTime, Enum, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import relationship
 
-from infrastructure.database.base import Base
 from domain.models.task import TaskStatus
+from infrastructure.database.base import Base
 
 
 class UserModel(Base):

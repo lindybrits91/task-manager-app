@@ -1,8 +1,8 @@
 """Task domain model."""
+
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Optional
 
 
 class TaskStatus(str, Enum):
@@ -17,7 +17,7 @@ class TaskStatus(str, Enum):
 class Task:
     """Task domain entity."""
 
-    id: Optional[int]
+    id: int | None
     description: str
     status: TaskStatus
     user_id: int

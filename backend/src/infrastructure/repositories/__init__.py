@@ -1,4 +1,5 @@
 """Repository implementations."""
+
 from .sqlalchemy_task_repository import SQLAlchemyTaskRepository
 from .sqlalchemy_user_repository import SQLAlchemyUserRepository
 

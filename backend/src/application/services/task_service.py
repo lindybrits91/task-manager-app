@@ -1,6 +1,6 @@
 """Task service (business logic)."""
-from datetime import datetime, timezone
-from typing import List
+
+from datetime import UTC, datetime
 
 from domain.models import Task, TaskStatus
 from domain.ports import TaskRepository, UserRepository
@@ -22,7 +22,7 @@ class TaskService:
             raise ValueError(f"User with id {user_id} not found")
 
         # Create task
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         task = Task(
             id=None,
             description=description,
@@ -52,7 +52,7 @@ class TaskService:
             status=status,
             user_id=user_id,
             created_at=existing_task.created_at,
-            updated_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(UTC),
         )
         return self.task_repository.update(updated_task)
 
@@ -65,7 +65,7 @@ class TaskService:
 
         return self.task_repository.delete(task_id)
 
-    def get_tasks_by_user(self, user_id: int) -> List[Task]:
+    def get_tasks_by_user(self, user_id: int) -> list[Task]:
         """Get all tasks for a user."""
         # Validate user exists
         user = self.user_repository.get_by_id(user_id)
@@ -74,7 +74,7 @@ class TaskService:
 
         return self.task_repository.get_by_user_id(user_id)
 
-    def get_all_tasks(self) -> List[Task]:
+    def get_all_tasks(self) -> list[Task]:
         """Get all tasks."""
         return self.task_repository.get_all()
 

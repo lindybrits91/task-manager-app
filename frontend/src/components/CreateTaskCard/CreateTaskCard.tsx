@@ -6,6 +6,8 @@ import { useCreateTask } from '../../hooks/useTasks';
 import { useUsers } from '../../hooks/useUsers';
 import './CreateTaskCard.css';
 
+const MAX_DESCRIPTION_LENGTH = 500;
+
 export function CreateTaskCard() {
   const [description, setDescription] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
@@ -54,6 +56,7 @@ export function CreateTaskCard() {
             placeholder="Enter task description..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            maxLength={MAX_DESCRIPTION_LENGTH}
             required
           />
         </div>
@@ -79,7 +82,7 @@ export function CreateTaskCard() {
         </button>
       </form>
       {createTask.isError && (
-        <div className="error-message" style={{ marginTop: '12px' }}>
+        <div className="error-message">
           Failed to create task. Please try again.
         </div>
       )}

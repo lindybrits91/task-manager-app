@@ -1,6 +1,6 @@
 """SQLAlchemy task repository implementation."""
-from datetime import datetime, timezone
-from typing import List, Optional
+
+from datetime import UTC, datetime
 
 from sqlalchemy.orm import Session
 
@@ -39,7 +39,7 @@ class SQLAlchemyTaskRepository(TaskRepository):
         db_task.description = task.description
         db_task.status = task.status
         db_task.user_id = task.user_id
-        db_task.updated_at = datetime.now(timezone.utc)
+        db_task.updated_at = datetime.now(UTC)
 
         self.session.commit()
         self.session.refresh(db_task)
@@ -55,19 +55,19 @@ class SQLAlchemyTaskRepository(TaskRepository):
         self.session.commit()
         return True
 
-    def get_by_id(self, task_id: int) -> Optional[Task]:
+    def get_by_id(self, task_id: int) -> Task | None:
         """Get a task by id."""
         db_task = self.session.query(TaskModel).filter(TaskModel.id == task_id).first()
         if not db_task:
             return None
         return self._to_domain(db_task)
 
-    def get_by_user_id(self, user_id: int) -> List[Task]:
+    def get_by_user_id(self, user_id: int) -> list[Task]:
         """Get all tasks for a specific user."""
         db_tasks = self.session.query(TaskModel).filter(TaskModel.user_id == user_id).all()
         return [self._to_domain(db_task) for db_task in db_tasks]
 
-    def get_all(self) -> List[Task]:
+    def get_all(self) -> list[Task]:
         """Get all tasks ordered by creation time."""
         db_tasks = self.session.query(TaskModel).order_by(TaskModel.created_at.asc()).all()
         return [self._to_domain(db_task) for db_task in db_tasks]

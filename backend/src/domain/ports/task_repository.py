@@ -1,6 +1,6 @@
 """Task repository port (interface)."""
+
 from abc import ABC, abstractmethod
-from typing import List, Optional
 
 from domain.models import Task
 
@@ -24,16 +24,16 @@ class TaskRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_id(self, task_id: int) -> Optional[Task]:
+    def get_by_id(self, task_id: int) -> Task | None:
         """Get a task by id."""
         pass
 
     @abstractmethod
-    def get_by_user_id(self, user_id: int) -> List[Task]:
+    def get_by_user_id(self, user_id: int) -> list[Task]:
         """Get all tasks for a specific user."""
         pass
 
     @abstractmethod
-    def get_all(self) -> List[Task]:
+    def get_all(self) -> list[Task]:
         """Get all tasks."""
         pass

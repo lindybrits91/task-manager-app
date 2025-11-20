@@ -1,5 +1,4 @@
 """User service (business logic)."""
-from typing import List
 
 from domain.models import User
 from domain.ports import UserRepository
@@ -12,7 +11,7 @@ class UserService:
         """Initialize service with repository."""
         self.user_repository = user_repository
 
-    def get_all_users(self) -> List[User]:
+    def get_all_users(self) -> list[User]:
         """Get all users."""
         return self.user_repository.get_all()
 

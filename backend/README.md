@@ -39,7 +39,12 @@ backend/
 │       └── api/             # FastAPI routes and schemas
 ├── migrations/              # Alembic database migrations
 ├── scripts/                 # Utility scripts
-├── requirements.txt         # Python dependencies
+├── tests/                   # Test suite
+├── requirements.in          # High-level Python dependencies
+├── requirements.txt         # Pinned Python dependencies (generated)
+├── pyproject.toml          # Ruff configuration
+├── pytest.ini              # Pytest configuration
+├── .pre-commit-config.yaml # Pre-commit hooks configuration
 ├── alembic.ini             # Alembic configuration
 ├── Dockerfile              # Docker image definition
 └── .env.example            # Environment variables template
@@ -293,6 +298,162 @@ DATABASE_URL: postgresql://taskmanager:taskmanager123@db:5432/taskmanager
 ```
 
 For local development without Docker, create a `.env` file based on `.env.example`.
+
+## Dependency Management
+
+This project uses **pip-tools** for dependency management with the `.in` format:
+
+- `requirements.in` - High-level dependencies without version pins
+- `requirements.txt` - Compiled dependencies with exact versions (auto-generated)
+
+### Update Dependencies
+
+To update `requirements.txt` from `requirements.in`:
+
+```bash
+# Inside the container
+docker-compose exec backend pip-compile requirements.in
+
+# Or locally (if you have pip-tools installed)
+pip-compile requirements.in
+```
+
+### Add New Dependencies
+
+1. Add the package to `requirements.in`
+2. Compile the requirements:
+   ```bash
+   pip-compile requirements.in
+   ```
+3. Rebuild the Docker image:
+   ```bash
+   docker-compose up --build
+   ```
+
+### Upgrade All Dependencies
+
+```bash
+pip-compile --upgrade requirements.in
+```
+
+## Testing
+
+This project uses **pytest** for testing with coverage reports. Tests are automatically run on every push and pull request via GitHub Actions CI.
+
+### Run Tests
+
+**Local (recommended):**
+
+```bash
+# Activate virtual environment
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Run all tests
+pytest
+
+# Run specific test file
+pytest tests/test_task_service.py
+
+# Run with coverage report
+pytest --cov=src --cov-report=term-missing
+
+# Run with verbose output
+pytest -v
+```
+
+**Docker:**
+
+```bash
+# Run all tests
+docker-compose exec backend pytest
+
+# Run with coverage
+docker-compose exec backend pytest --cov=src
+```
+
+### Test Coverage
+
+View detailed coverage report:
+```bash
+pytest --cov=src --cov-report=html
+open htmlcov/index.html  # Opens coverage report in browser
+```
+
+## Continuous Integration
+
+This project uses **GitHub Actions** for CI/CD. On every push and pull request to main/master/develop branches, the pipeline:
+
+1. ✅ Runs Ruff linting
+2. ✅ Runs Ruff formatting checks
+3. ✅ Runs all tests with coverage reporting (unit tests use mocks, no database needed)
+4. ✅ Checks coverage threshold (minimum 80%)
+5. ✅ Uploads coverage reports to Codecov (optional)
+
+The CI pipeline runs against Python 3.13. Tests use mocked repositories and don't require a database connection.
+
+### CI Configuration
+
+The GitHub Actions workflow is defined in `../.github/workflows/backend-ci.yml` (at repository root, as required by GitHub)
+
+To view CI results:
+- Check the "Actions" tab in your GitHub repository
+- Each commit will show a green checkmark ✅ if all checks pass
+- Pull requests will show CI status before merging
+
+## Code Quality
+
+This project uses **Ruff** for linting and code formatting, configured in `pyproject.toml`, with **pre-commit** hooks to run checks automatically before commits.
+
+### Pre-commit Hooks
+
+Pre-commit hooks will automatically run Ruff linting and formatting before each commit. **For best performance, install pre-commit locally** rather than running it through Docker.
+
+**Local installation (recommended):**
+
+```bash
+# Create a virtual environment (if you don't have one)
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install pre-commit
+pip install pre-commit
+
+# Install the git hooks
+pre-commit install
+
+# (Optional) Run on all files to test
+pre-commit run --all-files
+```
+
+**Docker installation (slower, not recommended):**
+
+```bash
+# Inside the container
+docker-compose exec backend pre-commit install
+
+# Run on all files
+docker-compose exec backend pre-commit run --all-files
+```
+
+Once installed, pre-commit will automatically run before each `git commit`. If issues are found, the commit will be blocked until they're fixed.
+
+### Manual Ruff Usage
+
+You can also run Ruff manually:
+
+```bash
+# Check for issues
+docker-compose exec backend ruff check .
+
+# Auto-fix issues
+docker-compose exec backend ruff check --fix .
+
+# Format code
+docker-compose exec backend ruff format .
+
+# Lint and format in one command
+docker-compose exec backend sh -c "ruff check --fix . && ruff format ."
+```
 
 ## Troubleshooting
 

@@ -1,5 +1,5 @@
 """API schemas using TypedDict for external boundaries."""
-from datetime import datetime
+
 from typing import TypedDict
 
 from domain.models.task import TaskStatus

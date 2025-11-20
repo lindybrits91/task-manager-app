@@ -53,6 +53,11 @@
   border-radius: 4px;
   transition: background 0.2s ease;
   margin-right: 20px;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
 }
 
 .task-description:hover {

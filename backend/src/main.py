@@ -1,4 +1,5 @@
 """FastAPI application entry point."""
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -27,6 +28,7 @@ app.add_middleware(
 # Include routers
 app.include_router(tasks_router)
 app.include_router(users_router)
+
 
 @app.get("/health")
 def health_check():

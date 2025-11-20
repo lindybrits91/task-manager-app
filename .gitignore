@@ -33,6 +33,7 @@ ENV/
 # IDE
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
 *~
@@ -56,6 +57,7 @@ htmlcov/
 coverage.xml
 *.cover
 .hypothesis/
+.pytest_cache/
 nosetests.xml
 coverage/
 
@@ -98,6 +100,3 @@ Thumbs.db
 .DS_Store
 .AppleDouble
 .LSOverride
-
-# Claude
-.claude/

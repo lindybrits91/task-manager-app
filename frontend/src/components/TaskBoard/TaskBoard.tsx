@@ -24,7 +24,7 @@ export function TaskBoard() {
     return (
       <div className="container">
         <h1>Task Management Board</h1>
-        <div style={{ textAlign: 'center', padding: '40px', color: '#6c757d' }}>
+        <div className="loading-message">
           Loading tasks...
         </div>
       </div>
