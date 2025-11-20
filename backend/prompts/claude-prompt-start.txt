@@ -1,0 +1,32 @@
+Build me a REST API backend application that adheres to the Hexagonal architecture pattern with the following requirements:
+
+Tech Stack:
+- Python (latest) with FastAPI
+- PostgreSQL database
+- SQLAlchemy for the ORM and database migrations
+
+Features:
+- CRUD operations for a "tasks" resource with fields: id, description, status, user_id, created_at, updated_at (status can be only one of three — "TODO", "DOING" or "DONE")
+- A user resource with fields: id, username, created_at (no CRUD operations required for initial setup)
+- Input validation
+- Environment variable configuration
+
+Database Setup:
+- Create a Postgres database schema with users and tasks tables
+- Set up migration scripts
+- Include seed data for testing
+- Do not containerize for the first version
+
+API Endpoints:
+- POST /api/tasks - Create task
+- PUT /api/tasks/:id - Update task
+- GET /api/tasks - Get tasks by user_id
+- DELETE /api/tasks/:id - Delete task
+
+Additional Requirements:
+- Include a README with setup instructions
+- Add a .env.example file
+- Use standard pip/venv for dependency management
+- Write the code in the Pythonic way
+
+Please set up the project structure, implement all endpoints, and ensure the database connection is properly configured.

@@ -1,0 +1,26 @@
+Build me a task management frontend app with the following requirements:
+
+Tech Stack:
+- React (latest) and TypeScript
+
+Components
+- CSS scaffolding has been created in `claude-prompt-start.txt`, please use it for the styling.
+- Let's create the following reusable components:
+ - TaskBoard
+  - CreateTaskCard
+  - TaskColumn
+   - TaskCard
+    - AssigneeSelector (used in the CreateTaskCard as well)
+
+Features
+ - CRUD operations for tasks (status can be only one of three — "TODO", "DOING" or "DONE")
+ - API Error handling
+ - Drag functionality to move tasks between statuses
+
+Additional Requirements
+ - Use React Context to provide data to components
+ - Use TanStack for server state management
+ - Keep separate folders for context, hooks, components and services
+ - Include a README with setup instructions
+ - Use Vite as a dev server
+

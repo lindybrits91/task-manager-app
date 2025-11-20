@@ -1,0 +1,67 @@
+.user-select {
+  background: transparent;
+  border: none;
+  font-size: 12px;
+  color: #495057;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 15px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3e%3cpath fill='%236c757d' d='M5 7L2 3h6z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+.user-select:focus {
+  outline: none;
+}
+
+.task-user:hover {
+  border-color: #adb5bd;
+  background: #f8f9fa;
+}
+
+.task-user {
+  background: white;
+  padding: 5px 12px 5px 4px;
+  border-radius: 50px;
+  border: 1px solid #dee2e6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+}
+
+.user-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #0084ff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+/* Dynamic avatar colors based on initials */
+.user-avatar[data-initials*='J'] {
+  background: #00c896;
+}
+
+.user-avatar[data-initials*='M'] {
+  background: #ff6b6b;
+}
+
+.user-avatar[data-initials*='S'] {
+  background: #7950f2;
+}
+
+.user-avatar[data-initials*='A'] {
+  background: #fd7e14;
+}
